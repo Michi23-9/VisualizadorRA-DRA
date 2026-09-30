@@ -17,12 +17,33 @@
             height: 100%;
             overflow: hidden;
         }
+        /* Asegura que el contenedor de video de la cámara no quede oculto */
+        .arjs-loader {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            color: white;
+            font-family: sans-serif;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Escena con soporte forzado de cámara trasera (environment) -->
-    <a-scene embedded arjs="sourceType: webcam; sourceWidth: 1280; sourceHeight: 960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;">
+    <!-- Pantalla de carga mientras activa la cámara -->
+    <div class="arjs-loader">
+        <div>Cargando cámara, por favor permita el acceso...</div>
+    </div>
+
+    <!-- Escena de Realidad Aumentada -->
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
         
         <!-- Tu marcador personalizado -->
         <a-marker type="pattern" url="marcador.patt">
@@ -32,5 +53,12 @@
         <a-entity camera></a-entity>
     </a-scene>
 
+    <script>
+        // Ocultar el mensaje de carga cuando la escena inicie
+        document.querySelector('a-scene').addEventListener('loaded', function () {
+            const loader = document.querySelector('.arjs-loader');
+            if (loader) loader.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
