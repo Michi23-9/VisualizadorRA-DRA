@@ -11,7 +11,7 @@
     <!-- AR.js -->
     <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.7/aframe/build/aframe-ar.js"></script>
 
-    <!-- Estilos CSS para los botones flotantes -->
+    <!-- Estilos CSS para los botones flotantes de cambio de capa -->
     <style>
         .menu-capas {
             position: absolute;
@@ -32,12 +32,15 @@
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
+        .menu-capas button:hover {
+            background-color: #27ae60;
+        }
     </style>
 </head>
 
 <body style="margin: 0; overflow: hidden;">
 
-    <!-- Botones en pantalla para alternar las capas -->
+    <!-- Botones en pantalla para alternar las capas del dron -->
     <div class="menu-capas">
         <button onclick="cambiarCapa('img/mapa_ndvi.jpg')">NDVI</button>
         <button onclick="cambiarCapa('img/mapa_ndre.jpg')">NDRE</button>
@@ -52,7 +55,7 @@
         <!-- Marcador Hiro -->
         <a-marker preset="hiro" smooth="true">
 
-            <!-- Plano 3D para el mapa -->
+            <!-- Plano 3D que mostrará la textura del índice seleccionado -->
             <a-plane 
                 id="planoMapa"
                 src="img/mapa_ndvi.jpg" 
@@ -69,7 +72,7 @@
 
     </a-scene>
 
-    <!-- Script para cambiar la imagen -->
+    <!-- Script sencillo para cambiar la imagen del plano según el botón que presione el usuario -->
     <script>
         function cambiarCapa(rutaImagen) {
             const plano = document.querySelector('#planoMapa');
