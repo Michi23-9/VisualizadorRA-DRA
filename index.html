@@ -4,49 +4,59 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <!-- Configuración para adaptar la vista a diferentes tamaños de pantalla en móviles y tablets -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Prueba AR.js - HIRO</title>
 
-    <!-- A-Frame -->
+    <!-- Importación de la librería A-Frame para renderizar gráficos y objetos 3D en la web -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
-    <!-- AR.js - Marker Tracking -->
+    <!-- Importación de la librería AR.js para el seguimiento de marcadores (Marker Tracking) mediante la cámara -->
     <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.7/aframe/build/aframe-ar.js"></script>
 
 </head>
 
+<!-- Estilo para quitar márgenes y ocultar las barras de desplazamiento, haciendo que la cámara ocupe toda la pantalla -->
 <body style="margin: 0; overflow: hidden;">
 
+    <!-- Contenedor principal de la escena de Realidad Aumentada -->
     <a-scene
         embedded
         vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true"
         arjs="sourceType: webcam; debugUIEnabled: false;">
 
-        <!-- ================================= -->
-        <!-- MARCADOR HIRO -->
-        <!-- ================================= -->
+        <!-- ================================================= -->
+        <!-- CONFIGURACIÓN DEL MARCADOR -->
+        <!-- ================================================= -->
+        <!-- 
+          preset="hiro": Le indica a la librería que busque el marcador clásico "Hiro".
+          smooth="true": Suaviza el movimiento del objeto 3D para que no parpadee ni tiemble al enfocar.
+        -->
+        <a-marker preset="hiro" smooth="true">
 
-        <a-marker
-            preset="hiro"
-            smooth="true">
-
-            <!-- ================================= -->
-            <!-- OBJETO DE PRUEBA (Escalado y centrado) -->
-            <!-- ================================= -->
-
-            <a-sphere 
-                position="0 0.2 0" 
-                radius="0.3" 
-                scale="0.5 0.5 0.5"
-                color="#EF2D5E">
-            </a-sphere>
+            <!-- ================================================= -->
+            <!-- OBJETO VIRTUAL 3D (Cubo Verde) -->
+            <!-- ================================================= -->
+            <!-- 
+              <a-box>: Etiqueta geométrica de A-Frame que crea un cubo.
+              position="0 0.5 0": Coordenadas espaciales (X, Y, Z). Eleva el cubo ligeramente sobre el papel.
+              scale="0.5 0.5 0.5": Reduce el tamaño del cubo a la mitad para que encaje bien en la cámara.
+              color="#4CC3D9": Define el color visual del cubo (en este caso un tono verdoso/celeste brillante).
+            -->
+            <a-box 
+                position="0 0.5 0" 
+                scale="0.5 0.5 0.5" 
+                color="#2ECC71">
+            </a-box>
 
         </a-marker>
 
-        <!-- CÁMARA -->
-
+        <!-- ================================================= -->
+        <!-- CÁMARA VIRTUAL -->
+        <!-- ================================================= -->
+        <!-- Define el punto de vista del usuario sincronizado con la cámara real del dispositivo -->
         <a-entity camera></a-entity>
 
     </a-scene>
