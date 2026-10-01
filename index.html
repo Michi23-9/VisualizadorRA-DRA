@@ -3,44 +3,47 @@
 
 <head>
     <meta charset="UTF-8">
-    <!-- Configuración para que el diseño se adapte perfectamente a pantallas móviles y tablets -->
+    <!-- Configuración indispensable para pantallas móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-    <title>Marcador Hiro 3D - Cubo Verde Giratorio</title>
+    <title>Realidad Aumentada Completa - Cámara + Cubo Verde</title>
 
-    <!-- Librería base 3D (A-Frame v1.3.0: la versión ideal para ejecutar animaciones nativas) -->
+    <!-- 1. Librería Base 3D (A-Frame v1.3.0) -->
     <script src="https://aframe.io"></script>
 
-    <!-- Extensión de Realidad Aumentada (AR.js: se encarga de abrir la cámara y buscar el marcador) -->
+    <!-- 2. Extensión de Realidad Aumentada (AR.js) que maneja la Webcam y los Marcadores -->
     <script src="https://githack.com"></script>
 </head>
 
-<!-- Estilos para eliminar márgenes y fijar la cámara al 100% de la pantalla sin barras de scroll -->
-<body style="margin: 0; overflow: hidden; font-family: sans-serif;">
+<!-- Estilos obligatorios para que el video de la cámara ocupe el 100% de la pantalla sin cortes -->
+<body style="margin: 0px; overflow: hidden; font-family: sans-serif;">
 
-    <!-- Aviso en pantalla que ayuda al usuario al iniciar la aplicación -->
-    <div style="position: fixed; top: 0; left: 0; width: 100%; text-align: center; z-index: 10; color: white; background: rgba(0,0,0,0.6); padding: 8px 0; font-size: 14px;">
-        Permite el acceso a la cámara y enfoca el marcador HIRO
+    <!-- Texto de ayuda flotante que desaparecerá cuando la cámara encienda -->
+    <div style="position: fixed; top: 10px; width:100%; text-align: center; z-index: 1; color: white; background: rgba(0,0,0,0.6); padding: 5px 0;">
+        Acepta los permisos de cámara y apunta al marcador HIRO
     </div>
 
-    <!-- Inicialización de la escena de Realidad Aumentada -->
-    <!-- arjs="sourceType: webcam;...": Esto activa la cámara física trasera de tu dispositivo automáticamente -->
+    <!-- 
+      [ESCENA AR]: Aquí se inicializa la cámara web.
+      - embedded: Ajusta la escena al contenedor de la página.
+      - arjs="sourceType: webcam;": ACTIVA LA CÁMARA de tu teléfono o PC en tiempo real.
+      - debugUIEnabled: false: Oculta cuadros de texto innecesarios de la librería.
+    -->
     <a-scene
         embedded
         vr-mode-ui="enabled: false"
         renderer="logarithmicDepthBuffer: true;"
         arjs="sourceType: webcam; debugUIEnabled: false;">
 
-        <!-- CONFIGURACIÓN DEL ANCLA (Marcador Hiro) -->
-        <!-- smooth="true": Evita que el objeto salte o parpadee si te tiembla la mano -->
+        <!-- 
+          [EL MARCADOR]: El "ancla" en el mundo real. 
+          Cuando la cámara web detecte el patrón negro de "HIRO", dibujará lo que esté aquí dentro.
+        -->
         <a-marker preset="hiro" smooth="true">
 
-            <!-- CUBO VERDE ANIMADO -->
             <!-- 
-              position="0 0.5 0": Lo eleva para que se asiente justo sobre el papel del marcador.
-              scale="0.5 0.5 0.5": Un tamaño cómodo que no desborda la pantalla.
-              color="#2ECC71": Tu tono verde brillante original.
-              animation: Configura un giro constante en el eje Y (de 0 a 360 grados) que dura 6 segundos (6000ms) y se repite infinitamente.
+              [EL OBJETO 3D]: Tu cubo verde personalizado.
+              - animation: Hace que gire 360 grados en el eje vertical de forma infinita.
             -->
             <a-box 
                 position="0 0.5 0" 
@@ -51,8 +54,10 @@
 
         </a-marker>
 
-        <!-- CÁMARA VIRTUAL DE LA ESCENA -->
-        <!-- Sincroniza la perspectiva del cubo 3D con el ángulo y movimiento real de tu teléfono -->
+        <!-- 
+          [LA CÁMARA VIRTUAL]: Obligatoria. 
+          Le dice a A-Frame que renderice los objetos 3D desde la perspectiva exacta de tu cámara real.
+        -->
         
 
     </a-scene>
