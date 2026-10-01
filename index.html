@@ -1,53 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <title>Prueba AR.js - HIRO</title>
+    <title>Prueba AR.js - HIRO</title>
 
-    <!-- A-Frame -->
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <!-- A-Frame -->
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
-    <!-- AR.js - Marker Tracking -->
-    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.7/aframe/build/aframe-ar.js"></script>
+    <!-- AR.js - Marker Tracking -->
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.7/aframe/build/aframe-ar.js"></script>
+
 </head>
+
 <body style="margin: 0; overflow: hidden;">
 
-    <a-scene
-        embedded
-        vr-mode-ui="enabled: false"
-        renderer="logarithmicDepthBuffer: true"
-        arjs="sourceType: webcam; debugUIEnabled: false;">
+    <a-scene
+        embedded
+        vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true"
+        arjs="sourceType: webcam; debugUIEnabled: false;">
 
-        <!-- ================================= -->
-        <!-- MARCADOR HIRO -->
-        <!-- ================================= -->
+        <!-- ================================= -->
+        <!-- MARCADOR HIRO -->
+        <!-- ================================= -->
 
-        <a-marker
-            preset="hiro"
-            smooth="true">
+        <a-marker
+            preset="hiro"
+            smooth="true">
 
-            <!-- ================================= -->
-            <!-- TU MODELO 3D -->
-            <!-- ================================= -->
+            <!-- ================================= -->
+            <!-- OBJETO DE PRUEBA (Esfera Roja) -->
+            <!-- ================================= -->
 
-            <a-entity
-                gltf-model="url(modelo/scene.gltf)"
-                position="0 0 0"
-                scale="0.5 0.5 0.5"
-                rotation="0 0 0">
-            </a-entity>
+            <a-sphere 
+                position="0 0.5 0" 
+                radius="0.5" 
+                color="#EF2D5E">
+            </a-sphere>
 
-        </a-marker>
+        </a-marker>
 
-        <!-- CÁMARA -->
+        <!-- CÁMARA -->
 
-        <a-entity camera></a-entity>
+        <a-entity camera></a-entity>
 
-    </a-scene>
+    </a-scene>
 
 </body>
 
