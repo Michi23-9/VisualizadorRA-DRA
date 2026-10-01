@@ -12,51 +12,58 @@
     body { margin: 0; overflow: hidden; }
     #aviso {
       position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
-      background: rgba(0,0,0,.65); color: #fff; font-family: sans-serif;
+      background: rgba(0,0,0,.7); color: #fff; font-family: sans-serif;
       padding: 8px 16px; border-radius: 20px; font-size: 14px;
-      z-index: 10; pointer-events: none; transition: opacity .3s;
+      z-index: 10; pointer-events: none; text-align: center;
     }
   </style>
 </head>
 <body>
-  <div id="aviso">Apunta la cámara al marcador DRA-ICA</div>
+  <div id="aviso">Buscando marcador…</div>
 
   <a-scene
     embedded
     vr-mode-ui="enabled: false"
     renderer="logarithmicDepthBuffer: true; alpha: true"
-    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono; maxDetectionRate: 30;">
+    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono; maxDetectionRate: 60; sourceWidth: 1280; sourceHeight: 720; displayWidth: 1280; displayHeight: 720;">
 
     <a-assets>
       <img id="logo" src="recurso.jpeg" crossorigin="anonymous">
     </a-assets>
 
-    <a-marker type="pattern" url="marcador.patt" smooth="true" smoothCount="10" id="marcador">
+    <!-- PRUEBA: marcador Hiro estándar (siempre funciona) -->
+    <a-marker preset="hiro" id="hiro">
+      <a-box position="0 0.5 0" color="#FF5722" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear"></a-box>
+    </a-marker>
 
-      <!-- Luz para que se vean los volúmenes -->
+    <!-- TU MARCADOR: DRA-ICA -->
+    <a-marker type="pattern" url="marcador.patt" id="dra" smooth="true" smoothCount="10">
       <a-light type="ambient" intensity="0.8"></a-light>
       <a-light type="directional" position="1 2 1" intensity="0.8"></a-light>
 
-      <!-- Tu imagen flotando y girando (doble cara) -->
       <a-entity position="0 1 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear">
         <a-plane src="#logo" width="1.5" height="1.5" material="side: double; transparent: true"></a-plane>
       </a-entity>
-
-      <!-- Cubo y esfera para comprobar el 3D -->
       <a-box position="-0.9 0.25 0" width="0.5" height="0.5" depth="0.5" color="#8DC63F"
              animation="property: rotation; to: 0 360 360; loop: true; dur: 6000; easing: linear"></a-box>
       <a-sphere position="0.9 0.3 0" radius="0.3" color="#00AEEF"></a-sphere>
-
     </a-marker>
 
     <a-entity camera></a-entity>
   </a-scene>
 
   <script>
-    const marcador = document.getElementById('marcador');
     const aviso = document.getElementById('aviso');
-    marcador.addEventListener('markerFound', () => aviso.style.opacity = 0);
-    marcador.addEventListener('markerLost',  () => aviso.style.opacity = 1);
+    ['hiro', 'dra'].forEach(id => {
+      const m = document.getElementById(id);
+      m.addEventListener('markerFound', () => aviso.textContent = '✔ Detectado: ' + id.toUpperCase());
+      m.addEventListener('markerLost',  () => aviso.textContent = 'Buscando marcador…');
+    });
+
+    // Avisa si marcador.patt no se pudo cargar
+    fetch('marcador.patt').then(r => {
+      if (!r.ok) aviso.textContent = '⚠ No se encuentra marcador.patt (error ' + r.status + ')';
+    }).catch(() => aviso.textContent = '⚠ No se pudo leer marcador.patt');
   </script>
 </body>
 </html>
